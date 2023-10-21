@@ -29,12 +29,18 @@ class _HomeViewState extends ConsumerState<_HomeView> {
   void initState() {
     super.initState();
     ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
+    ref.read(popularMoviesProvider.notifier).loadNextPage();
+    ref.read(getUpcomingProvider.notifier).loadNextPage();
+    ref.read(topRatedProvider.notifier).loadNextPage();
   }
 
   @override
   Widget build(BuildContext context) {
     final nowPlayingMovies = ref.watch(nowPlayingMoviesProvider);
     final moviesSlideShow = ref.watch(moviesSlideShowProvider);
+    final popularMovies = ref.watch(popularMoviesProvider);
+    final topRatedMovies = ref.watch(topRatedProvider);
+    final moviesUpcoming = ref.watch(getUpcomingProvider);
 
     return CustomScrollView(slivers: [
       const SliverAppBar(
@@ -72,27 +78,27 @@ class _HomeViewState extends ConsumerState<_HomeView> {
               },
             ),
             MovieHorizontalListview(
-              movies: nowPlayingMovies,
+              movies: moviesUpcoming,
               title: 'Proximamente',
               subTitle: 'En este mes',
               loadNextPage: () {
-                ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
+                ref.read(getUpcomingProvider.notifier).loadNextPage();
               },
             ),
             MovieHorizontalListview(
-              movies: nowPlayingMovies,
+              movies: popularMovies,
               title: 'Populares',
               // subTitle: 'En este mes',
               loadNextPage: () {
-                ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
+                ref.read(popularMoviesProvider.notifier).loadNextPage();
               },
             ),
             MovieHorizontalListview(
-              movies: nowPlayingMovies,
+              movies: topRatedMovies,
               title: 'Mejor calificadas',
               subTitle: 'Desde siempre',
               loadNextPage: () {
-                ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
+                ref.read(topRatedProvider.notifier).loadNextPage();
               },
             ),
             const SizedBox(
