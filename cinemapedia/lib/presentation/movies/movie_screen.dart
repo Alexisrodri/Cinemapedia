@@ -82,6 +82,7 @@ class _MovieDetails extends StatelessWidget {
                 SizedBox(
                   width: (size.width - 40) * 0.7,
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         movie.title,
@@ -99,6 +100,21 @@ class _MovieDetails extends StatelessWidget {
                 ),
               ],
             )),
+        Padding(
+          padding: const EdgeInsets.all(8),
+          child: Wrap(
+            children: [
+              ...movie.genreIds.map((gender) => Container(
+                    margin: const EdgeInsets.only(right: 10),
+                    child: Chip(
+                      label: Text(gender),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                    ),
+                  ))
+            ],
+          ),
+        ),
         const SizedBox(
           height: 100,
         )
