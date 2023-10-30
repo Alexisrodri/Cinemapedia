@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:cinemapedia/domain/entities/movie.dart';
 import 'package:cinemapedia/presentation/providers/movies/movie_info_provider.dart';
 import 'package:cinemapedia/presentation/providers/provider.dart';
@@ -86,15 +87,19 @@ class _MovieDetails extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        movie.title,
-                        style: textStyle.titleLarge,
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10, top: 5),
+                        child: Text(
+                          movie.title,
+                          style: textStyle.titleLarge,
+                        ),
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
                           movie.overview,
                           style: textStyle.bodySmall,
+                          textAlign: TextAlign.start,
                         ),
                       )
                     ],
@@ -152,13 +157,19 @@ class _ActorsByMovie extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Image.network(
-                    actor.profilePath,
-                    fit: BoxFit.cover,
-                    width: 135,
-                    height: 180,
+                FadeInRight(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.network(
+                      actor.profilePath,
+                      fit: BoxFit.cover,
+                      width: 135,
+                      height: 180,
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress != null) return const SizedBox();
+                        return FadeInDown(child: child);
+                      },
+                    ),
                   ),
                 ),
                 const SizedBox(
