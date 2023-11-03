@@ -9,27 +9,30 @@ class CustomBottomNavigation extends StatefulWidget {
 }
 
 class _CustomBottomNavigationState extends State<CustomBottomNavigation> {
-  int selectedIndex = 0;
+  int getCurrentIndex(BuildContext context) {
+    final String location = GoRouterState.of(context).matchedLocation;
+    switch (location) {
+      case '/':
+        return 0;
+      case '/categories':
+        return 1;
+      case '/favorites':
+        return 2;
+      default:
+        return 0;
+    }
+  }
 
   void onItemTap(BuildContext context, int index) {
     switch (index) {
       case 0:
         context.go('/');
-        setState(() {
-          selectedIndex = 0;
-        });
         break;
       case 1:
         context.go('/');
-        setState(() {
-          selectedIndex = 1;
-        });
         break;
       case 2:
         context.go('/favorites');
-        setState(() {
-          selectedIndex = 2;
-        });
         break;
     }
   }
@@ -37,7 +40,7 @@ class _CustomBottomNavigationState extends State<CustomBottomNavigation> {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-        currentIndex: selectedIndex,
+        currentIndex: getCurrentIndex(context),
         elevation: 0,
         onTap: (value) => onItemTap(context, value),
         items: const [
