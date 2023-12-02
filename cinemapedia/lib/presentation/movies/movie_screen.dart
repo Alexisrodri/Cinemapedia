@@ -1,6 +1,6 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:cinemapedia/domain/entities/movie.dart';
 import 'package:cinemapedia/presentation/providers/provider.dart';
+import 'package:cinemapedia/presentation/widgets/actors/actors_by_movie.dart';
 import 'package:cinemapedia/presentation/widgets/movies/similar_movies.dart';
 import 'package:cinemapedia/presentation/widgets/videos/videos_from_movie.dart';
 import 'package:cinemapedia/presentation/widgets/widgets.dart';
@@ -136,7 +136,9 @@ class _MovieDetails extends StatelessWidget {
       children: [
         _TitleAndOverview(movie: movie, textStyle: textStyle, size:size ,),
         _Genres(movie: movie,),
-        _ActorsByMovie(movieId: movie.id.toString()),
+        //Ahora usamos el actor como widget personalizado separado.
+        // _ActorsByMovie(movieId: movie.id.toString()),
+        ActorsByMovie(movieId: movie.id.toString()),
         VideosFromMovie(movieId: movie.id),
         SimilarMovies(movieId: movie.id),
         const SizedBox(height: 20,)
@@ -197,6 +199,7 @@ class _TitleAndOverview extends StatelessWidget {
             child: Image.network(
               movie.posterPath,
               width: size.width * 0.3,
+              scale: 1.0,
               ),
           ),
 
@@ -213,7 +216,7 @@ class _TitleAndOverview extends StatelessWidget {
               movie.overview.isEmpty ?
                const Text('Sin descripcion')
               :
-              Text(movie.overview)
+                Text(movie.overview)
               ,
               const SizedBox(height: 10,),
               MovieRating(voteAverage: movie.voteAverage),
@@ -234,69 +237,69 @@ class _TitleAndOverview extends StatelessWidget {
   }
 }
 
-class _ActorsByMovie extends ConsumerWidget {
-  final String movieId;
+// class _ActorsByMovie extends ConsumerWidget {
+//   final String movieId;
 
-  const _ActorsByMovie({required this.movieId});
+//   const _ActorsByMovie({required this.movieId});
 
-  @override
-  Widget build(BuildContext context, ref) {
-    final actorsByMovie = ref.watch(actorsByMovieProvider);
-    if (actorsByMovie[movieId] == null) {
-      return const Center(child: CircularProgressIndicator(strokeWidth: 2));
-    }
-    final actors = actorsByMovie[movieId]!;
+//   @override
+//   Widget build(BuildContext context, ref) {
+//     final actorsByMovie = ref.watch(actorsByMovieProvider);
+//     if (actorsByMovie[movieId] == null) {
+//       return const Center(child: CircularProgressIndicator(strokeWidth: 2));
+//     }
+//     final actors = actorsByMovie[movieId]!;
 
-    return SizedBox(
-      height: 300,
-      child: ListView.builder(
-        itemCount: actors.length,
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, index) {
-          final actor = actors[index];
-          return Container(
-            padding: const EdgeInsets.all(8.0),
-            width: 135,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                FadeInRight(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Image.network(
-                      actor.profilePath,
-                      fit: BoxFit.cover,
-                      width: 135,
-                      height: 180,
-                      loadingBuilder: (context, child, loadingProgress) {
-                        if (loadingProgress != null) return const SizedBox();
-                        return FadeInDown(child: child);
-                      },
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                Text(
-                  actor.name,
-                  maxLines: 2,
-                ),
-                Text(
-                  actor.character ?? '',
-                  maxLines: 2,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      overflow: TextOverflow.ellipsis),
-                )
-              ],
-            ),
-          );
-        },
-      ),
-    );
-  }
-}
+//     return SizedBox(
+//       height: 300,
+//       child: ListView.builder(
+//         itemCount: actors.length,
+//         scrollDirection: Axis.horizontal,
+//         itemBuilder: (context, index) {
+//           final actor = actors[index];
+//           return Container(
+//             padding: const EdgeInsets.all(8.0),
+//             width: 135,
+//             child: Column(
+//               crossAxisAlignment: CrossAxisAlignment.start,
+//               children: [
+//                 FadeInRight(
+//                   child: ClipRRect(
+//                     borderRadius: BorderRadius.circular(20),
+//                     child: Image.network(
+//                       actor.profilePath,
+//                       fit: BoxFit.cover,
+//                       width: 135,
+//                       height: 180,
+//                       loadingBuilder: (context, child, loadingProgress) {
+//                         if (loadingProgress != null) return const SizedBox();
+//                         return FadeInDown(child: child);
+//                       },
+//                     ),
+//                   ),
+//                 ),
+//                 const SizedBox(
+//                   height: 5,
+//                 ),
+//                 Text(
+//                   actor.name,
+//                   maxLines: 2,
+//                 ),
+//                 Text(
+//                   actor.character ?? '',
+//                   maxLines: 2,
+//                   style: const TextStyle(
+//                       fontWeight: FontWeight.bold,
+//                       overflow: TextOverflow.ellipsis),
+//                 )
+//               ],
+//             ),
+//           );
+//         },
+//       ),
+//     );
+//   }
+// }
 
 final isFavoriteProvider =
     FutureProvider.family.autoDispose((ref, int movieId) {
