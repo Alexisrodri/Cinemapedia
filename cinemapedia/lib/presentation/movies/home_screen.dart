@@ -37,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen>
 
     if (pageController.hasClients) {
       pageController.animateToPage(widget.pageIndex,
-          duration: const Duration(microseconds: 250), curve: Curves.easeInOut);
+          duration: const Duration(microseconds: 500), curve: Curves.easeInOut);
     }
 //Antes del pageView usando el IndexedStack
     //   return Scaffold(

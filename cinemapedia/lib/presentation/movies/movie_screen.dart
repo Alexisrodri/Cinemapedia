@@ -1,6 +1,8 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:cinemapedia/domain/entities/movie.dart';
 import 'package:cinemapedia/presentation/providers/provider.dart';
+import 'package:cinemapedia/presentation/widgets/movies/similar_movies.dart';
+import 'package:cinemapedia/presentation/widgets/videos/videos_from_movie.dart';
 import 'package:cinemapedia/presentation/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -134,7 +136,10 @@ class _MovieDetails extends StatelessWidget {
       children: [
         _TitleAndOverview(movie: movie, textStyle: textStyle, size:size ,),
         _Genres(movie: movie,),
-        _ActorsByMovie(movieId: movie.id.toString())
+        _ActorsByMovie(movieId: movie.id.toString()),
+        VideosFromMovie(movieId: movie.id),
+        SimilarMovies(movieId: movie.id),
+        const SizedBox(height: 20,)
       ],
     );
   }
@@ -205,7 +210,11 @@ class _TitleAndOverview extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(movie.title,style: textStyle.titleLarge,),
-              Text(movie.overview),
+              movie.overview.isEmpty ?
+               const Text('Sin descripcion')
+              :
+              Text(movie.overview)
+              ,
               const SizedBox(height: 10,),
               MovieRating(voteAverage: movie.voteAverage),
 

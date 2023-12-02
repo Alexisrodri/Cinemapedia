@@ -15,7 +15,7 @@ class HomeViewState extends ConsumerState<HomeView> with AutomaticKeepAliveClien
   void initState() {
     super.initState();
     ref.read(nowPlayingMoviesProvider.notifier).loadNextPage();
-    // ref.read(popularMoviesProvider.notifier).loadNextPage();
+    ref.read(popularMoviesProvider.notifier).loadNextPage();
     ref.read(getUpcomingProvider.notifier).loadNextPage();
     ref.read(topRatedProvider.notifier).loadNextPage();
   }

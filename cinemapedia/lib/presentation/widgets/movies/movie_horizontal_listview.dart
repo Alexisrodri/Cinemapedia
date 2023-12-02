@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:cinemapedia/config/helpers/human_formats.dart';
 import 'package:cinemapedia/domain/entities/movie.dart';
+import 'package:cinemapedia/presentation/widgets/movies/movie_rating.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -83,32 +84,21 @@ class _Slide extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 10),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        SizedBox(
+      SizedBox(
             width: 150,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
-              child: Image.network(
-                movie.posterPath,
-                width: 150,
-                fit: BoxFit.cover,
-                loadingBuilder: (context, child, loadingProgress) {
-                  if (loadingProgress != null) {
-                    return const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Center(
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2,
-                        ),
-                      ),
-                    );
-                  }
-
-                  return GestureDetector(
-                      onTap: () => context.push('/home/0/movie/${movie.id}'),
-                      child: FadeIn(child: child));
-                },
+              child: GestureDetector(
+                onTap: () => context.push('/home/0/movie/${ movie.id }'),
+                child: FadeInImage(
+                  height: 220,
+                  fit: BoxFit.cover,
+                  placeholder: const AssetImage('assets/loaders/bottle-loader.gif'), 
+                  image: NetworkImage(movie.posterPath)
+                ),
               ),
-            )),
+            ),
+          ),
         const SizedBox(
           height: 5,
         ),
@@ -120,37 +110,7 @@ class _Slide extends StatelessWidget {
             style: textStyle.titleSmall,
           ),
         ),
-        SizedBox(
-          width: 150,
-          child: Row(
-            children: [
-              Icon(
-                Icons.star_half_outlined,
-                color: Colors.yellow.shade800,
-              ),
-              const SizedBox(
-                width: 3,
-              ),
-              Text(
-                '${movie.voteAverage}',
-                style: textStyle.bodyMedium
-                    ?.copyWith(color: Colors.yellow.shade800),
-              ),
-              const SizedBox(
-                width: 3,
-              ),
-              // Text(
-              //   '${movie.popularity}',
-              //   style: textStyle.bodySmall,
-              // ),
-              const Spacer(),
-              Text(
-                HumanFormats.number(movie.popularity, 1),
-                style: textStyle.bodySmall,
-              )
-            ],
-          ),
-        )
+        MovieRating(voteAverage: movie.voteAverage)
       ]),
     );
   }
