@@ -46,7 +46,7 @@ class FavoritesViewState extends ConsumerState<FavoritesView> with AutomaticKeep
           children: [
             Icon(Icons.favorite_border,size: 50,color: colors.primary,),
             Text('Aun no tienes',style: TextStyle(fontSize: 30,color: colors.primary),),
-            const Text('Peliculas favoritas',style: TextStyle(fontSize: 20,color: Colors.black54),),
+            const Text('Peliculas favoritas',style: TextStyle(fontSize: 20,color: Colors.grey),),
             const SizedBox(height: 20,),
             FilledButton.tonal(
               onPressed:() =>  context.go('/home/0'),
